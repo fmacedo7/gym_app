@@ -1,0 +1,1 @@
+const double edgePadding = 15;
