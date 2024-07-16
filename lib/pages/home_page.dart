@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gym_app/constants/container_week_size.dart';
 import 'package:gym_app/constants/padding.dart';
-import 'package:gym_app/theme/colors.dart';
 import 'package:gym_app/widget/image_picker.dart';
 import 'package:gym_app/widget/week_schedule.dart';
+import 'package:gym_app/widget/workout_cards.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -55,27 +55,39 @@ class _HomePageState extends State<HomePage> {
                   width: screenWidth,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: baseBlack,
+                    color: Colors.transparent,
                   ),
                   child: const Column(
-                    children: [],
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Bícipes e Costas',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 30),
+                      ),
+                    ],
                   ),
                 ),
               ),
+              const WorkoutCards(
+                children: [],
+              ),
+              const Spacer(),
               const Text(
                 'Schedule',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
               ),
               Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: weeks.map((week) {
-                    return WeekSchedule(
-                      borderColor: WeekContainerConstants.borderColor,
-                      weekDayColor: WeekContainerConstants.currentColorDay,
-                      weekDay: week,
-                      onTap: () {},
-                    );
-                  }).toList()),
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: weeks.map((week) {
+                  return WeekSchedule(
+                    borderColor: WeekContainerConstants.borderColor,
+                    weekDayColor: WeekContainerConstants.currentColorDay,
+                    weekDay: week,
+                    onTap: () {},
+                  );
+                }).toList(),
+              ),
             ],
           ),
         ),
