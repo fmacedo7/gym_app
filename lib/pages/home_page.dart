@@ -69,10 +69,18 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              const WorkoutCards(
-                children: [],
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: List.generate(7, (index) {
+                      return const WorkoutCards(
+                        children: [],
+                      );
+                    }),
+                  ),
+                ),
               ),
-              const Spacer(),
+              // const Spacer(),
               const Text(
                 'Schedule',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
