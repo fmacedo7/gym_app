@@ -10,6 +10,7 @@ class WorkoutCards extends StatelessWidget {
     double screenHeight = MediaQuery.sizeOf(context).height;
     double screenWidth = MediaQuery.sizeOf(context).width;
     return Container(
+      margin: const EdgeInsets.only(bottom: 20),
       height: screenHeight * 0.3,
       width: screenWidth,
       decoration: BoxDecoration(
