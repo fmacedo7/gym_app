@@ -45,3 +45,7 @@ app.*.map.json
 # images
 /assets/image
 /assets/gif
+
+# Packages
+pubspec.lock
+pubspec.yaml
