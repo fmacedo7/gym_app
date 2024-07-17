@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gym_app/constants/container_week_size.dart';
 import 'package:gym_app/constants/padding.dart';
+import 'package:gym_app/models/workout_model.dart';
 import 'package:gym_app/widget/image_picker.dart';
 import 'package:gym_app/widget/week_schedule.dart';
 import 'package:gym_app/widget/workout_cards.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,12 +15,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<String> weeks = ['Mon', 'Tus', 'Wed', 'Thi', 'Fri'];
+  List<String> weeks = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
 
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.sizeOf(context).height;
     double screenWidth = MediaQuery.sizeOf(context).width;
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -28,10 +31,10 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                children: <Widget>[
                   Row(
                     mainAxisSize: MainAxisSize.min,
-                    children: [
+                    children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(right: 10),
                         child: ImageProfilePicker(),
@@ -57,15 +60,18 @@ class _HomePageState extends State<HomePage> {
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.transparent,
                   ),
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Bícipes e Costas',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 30),
-                      ),
-                    ],
+                  child: Center(
+                    child: Consumer<WorkoutModel>(
+                      builder: (context, workoutModel, child) {
+                        return Text(
+                          workoutModel.workout,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30,
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),
@@ -80,7 +86,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              // const Spacer(),
               const Text(
                 'Schedule',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
@@ -92,7 +97,9 @@ class _HomePageState extends State<HomePage> {
                     borderColor: WeekContainerConstants.borderColor,
                     weekDayColor: WeekContainerConstants.currentColorDay,
                     weekDay: week,
-                    onTap: () {},
+                    onTap: () {
+                      Provider.of<WorkoutModel>(context, listen: false).setSelectedDay(week);
+                    },
                   );
                 }).toList(),
               ),
