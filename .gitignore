@@ -48,4 +48,4 @@ app.*.map.json
 
 # Packages
 pubspec.lock
-pubspec.yaml
+**.yaml
