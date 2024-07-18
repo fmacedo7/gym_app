@@ -1,3 +1,4 @@
+import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_app/constants/container_week_size.dart';
 import 'package:gym_app/constants/padding.dart';
@@ -6,6 +7,7 @@ import 'package:gym_app/widget/image_picker.dart';
 import 'package:gym_app/widget/week_schedule.dart';
 import 'package:gym_app/widget/workout_cards.dart';
 import 'package:provider/provider.dart';
+import 'package:video_player/video_player.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,12 +19,25 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<String> weeks = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
 
+  late FlickManager flickManager;
+  @override
+  void initState() {
+    super.initState();
+    flickManager = FlickManager(
+      videoPlayerController: VideoPlayerController.networkUrl(
+        Uri.parse(
+            'https://www.youtube.com/embed/xDaBywsDams?si=OVAg7AA2csSQwi3Y'),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.sizeOf(context).height;
     double screenWidth = MediaQuery.sizeOf(context).width;
 
     return Scaffold(
+      key: const ValueKey<String>('home_page'),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(edgePadding),
@@ -79,8 +94,12 @@ class _HomePageState extends State<HomePage> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: List.generate(7, (index) {
-                      return const WorkoutCards(
-                        children: [],
+                      return WorkoutCards(
+                        children: [
+                          Center(
+                            child: FlickVideoPlayer(flickManager: flickManager),
+                          ),
+                        ],
                       );
                     }),
                   ),
@@ -98,7 +117,8 @@ class _HomePageState extends State<HomePage> {
                     weekDayColor: WeekContainerConstants.currentColorDay,
                     weekDay: week,
                     onTap: () {
-                      Provider.of<WorkoutModel>(context, listen: false).setSelectedDay(week);
+                      Provider.of<WorkoutModel>(context, listen: false)
+                          .setSelectedDay(week);
                     },
                   );
                 }).toList(),
